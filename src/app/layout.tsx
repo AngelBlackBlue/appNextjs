@@ -1,8 +1,13 @@
+"use client"
+
 import type { Metadata } from "next";
 
 import "./globals.scss";
-
-
+import { useState } from "react";
+import { darkTheme, lightTheme } from "./theme/theme";
+import { ThemeProvider, CssBaseline } from "@mui/material";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -14,9 +19,20 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return (
+  const [isDark, setIsDark] = useState(false)
+  const switchTheme: any = ()  => {
+      setIsDark(!isDark)
+  }
+      
+  
+  return ( 
     <html lang="en">
-      <body >{children}</body>
+      <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <CssBaseline/>
+          <body >{children}</body>
+        </LocalizationProvider>
+      </ThemeProvider>
     </html>
   );
 }
